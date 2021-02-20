@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Quizzler</string>
+    <string name="lorem_50">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod vulputate lobortis.</string>
+    <string name="identify_make_btn">Identify Make</string>
+    <string name="hint_btn">Hint</string>
+    <string name="identify_image_btn">Identify Image</string>
+    <string name="advanced_level_btn">Advanced Level</string>
+    <string name="identify_make">Identify Car Make</string>
+</resources>
