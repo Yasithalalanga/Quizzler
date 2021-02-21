@@ -6,4 +6,11 @@
     <string name="identify_image_btn">Identify Image</string>
     <string name="advanced_level_btn">Advanced Level</string>
     <string name="identify_make">Identify Car Make</string>
+
+    <string-array name="car_make_array">
+        <item>BMW</item>
+        <item>Tesla</item>
+        <item>Test</item>
+        <item>Test</item>
+    </string-array>
 </resources>
