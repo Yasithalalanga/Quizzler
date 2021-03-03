@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="475dp"
+    android:background="@drawable/card_layout"
+    android:layout_gravity="center">
+
+    <ImageView
+        android:id="@+id/cross_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:src="@drawable/wrong_mark"/>
+
+    <TextView
+        android:id="@+id/wrong_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@color/red"
+        android:layout_marginTop="40dp"
+        android:text="@string/wrong_text"/>
+
+    <TextView
+        android:id="@+id/correct_answer_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/correct_answer"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"/>
+
+    <TextView
+        android:id="@+id/correct_answer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:textSize="20sp"/>
+
+</LinearLayout>

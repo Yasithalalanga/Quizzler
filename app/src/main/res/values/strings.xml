@@ -6,6 +6,11 @@
     <string name="identify_image_btn">Identify Image</string>
     <string name="advanced_level_btn">Advanced Level</string>
     <string name="identify_make">Identify Car Make</string>
+    <string name="make_submit">Identify</string>
+    <string name="next_item">Next</string>
+    <string name="correct_mark">Correct</string>
+    <string name="correct_answer">Correct Answer</string>
+    <string name="wrong_text">wrong</string>
 
     <string-array name="car_make_array">
         <item>BMW</item>
