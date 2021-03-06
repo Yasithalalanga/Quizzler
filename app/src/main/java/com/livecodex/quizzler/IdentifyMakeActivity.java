@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -21,6 +22,8 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
     private ImageView randomImageView;
     private Spinner mSpinner;
     private Dialog resultDialog;
+
+    private TextView dialogCorrectText;
 
     private String spinnerCarMakes;
     private int makeTestRand;
@@ -93,6 +96,8 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
             }else{
                 resultDialog.setContentView(R.layout.wrongpopup);
+                dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
+                dialogCorrectText.setText(selections.getCarMake(makeTestRand));
 
             }
             resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

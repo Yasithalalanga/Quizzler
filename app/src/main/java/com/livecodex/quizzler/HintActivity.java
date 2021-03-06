@@ -22,6 +22,8 @@ public class HintActivity extends AppCompatActivity {
     private EditText mHintInput;
     private Dialog resultDialog;
 
+    private TextView dialogCorrectText;
+
     private int mRandomImageNum;
     private int roundCount;
     private String carHintText;
@@ -67,6 +69,9 @@ public class HintActivity extends AppCompatActivity {
             mHintInput.setEnabled(true);
             mHintTextView.setText("");
 
+            carHintText =  new String(new char[selection.getCarMake(mRandomImageNum).length()]).replace("\0", "-");
+            mHintTextView.setText(carHintText);
+
         }else {
 
             String hintInput = mHintInput.getText().toString().trim();
@@ -100,8 +105,16 @@ public class HintActivity extends AppCompatActivity {
                 if (roundCount > 2) {
                     Toast.makeText(this, "maximum count reached", Toast.LENGTH_LONG).show();
                     resultDialog.setContentView(R.layout.wrongpopup);
+                    dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
+                    dialogCorrectText.setText(selection.getCarMake(mRandomImageNum));
                     resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     resultDialog.show();
+
+
+                    hintButton.setText(R.string.next_item);
+                    mHintInput.setEnabled(false);
+                    mHintInput.setText("");
+
                 } else {
 
                     Toast.makeText(this, "Letter is not available" + roundCount, Toast.LENGTH_LONG).show();
