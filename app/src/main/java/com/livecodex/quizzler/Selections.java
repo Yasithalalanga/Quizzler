@@ -61,4 +61,8 @@ public class Selections {
     public void setMakes(String[] makes) {
         this.makes = makes;
     }
+
+    public String getCarMake(int index){
+        return carImageMakes[index];
+    }
 }

@@ -19,12 +19,12 @@ import java.util.Random;
 public class IdentifyMakeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private ImageView randomImageView;
-    private String spinnerCarMakes;
-//    private Button makeSubmitBtn;
-
+    private Spinner mSpinner;
     private Dialog resultDialog;
 
+    private String spinnerCarMakes;
     private int makeTestRand;
+    private final Selections selections = new Selections();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,31 +33,32 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
         resultDialog = new Dialog(this);
 
-//        makeSubmitBtn = (Button) findViewById(R.id.makeSubmit);
         randomImageView = (ImageView) findViewById(R.id.imageView) ;
-        Spinner mSpinner = (Spinner) findViewById(R.id.makeSpinner);
+        mSpinner = (Spinner) findViewById(R.id.makeSpinner);
 
         if(mSpinner != null){
             mSpinner.setOnItemSelectedListener(this);
         }
 
-        ArrayAdapter<CharSequence> adapter =  ArrayAdapter.createFromResource(this,R.array.car_make_array, android.R.layout.simple_spinner_item);
+        // Spinner items loaded from the string array
+        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, selections.getMakes());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         if(mSpinner != null){
             mSpinner.setAdapter(adapter);
         }
 
-        randomImage();
+        makeTestRand = randomImage();
     }
 
-    public void randomImage(){
+    public int randomImage(){
         Random rand = new Random();
         int randomImageNo = rand.nextInt(10);
         String imageUri = "img_"+ randomImageNo;
         int resource_id = getResources().getIdentifier(imageUri,"drawable", "com.livecodex.quizzler");
 
         randomImageView.setImageResource(resource_id);
+        return randomImageNo;
     }
 
     @Override
@@ -78,10 +79,15 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
         if(buttonContent.equals("Next")){
             makeButton.setText(R.string.make_submit);
-            randomImage();
+            makeTestRand = randomImage();
+
+            mSpinner.setEnabled(true);
 
         }else{
-            if(spinnerCarMakes.equals("BMW")){
+
+            mSpinner.setEnabled(false);
+
+            if(spinnerCarMakes.equals(selections.getCarMake(makeTestRand))){
                 // Showing the correct dialog
                 resultDialog.setContentView(R.layout.correctpopup);
 

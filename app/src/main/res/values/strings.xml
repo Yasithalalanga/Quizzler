@@ -11,6 +11,7 @@
     <string name="correct_mark">Correct</string>
     <string name="correct_answer">Correct Answer</string>
     <string name="wrong_text">wrong</string>
+    <string name="guess_make">Guess Make</string>
 
     <string-array name="car_make_array">
         <item>BMW</item>
