@@ -17,21 +17,21 @@ public class Selections {
     };
 
     private String carImageMakes [] = {
-            "Rolls Royce",
-            "Rolls Royce",
-            "Rolls Royce",
-            "Rolls Royce",
-            "Rolls Royce",
-            "Rolls Royce",
-            "Rolls Royce",
-            "Rolls Royce",
+            "RollsRoyce",
+            "RollsRoyce",
+            "RollsRoyce",
+            "RollsRoyce",
+            "RollsRoyce",
+            "RollsRoyce",
+            "RollsRoyce",
+            "RollsRoyce",
             "BMW",
             "BMW",
             "Lamborghini"
     };
 
     private String makes [] = {
-            "Rolls Royce",
+            "RollsRoyce",
             "Lamborghini",
             "BMW",
             "Toyota",

@@ -2,8 +2,12 @@ package com.livecodex.quizzler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +20,10 @@ public class HintActivity extends AppCompatActivity {
     private ImageView mHintImageView;
     private TextView mHintTextView;
     private EditText mHintInput;
+    private Dialog resultDialog;
+
     private int mRandomImageNum;
+    private int roundCount;
     private String carHintText;
 
     private final Selections selection = new Selections();
@@ -29,10 +36,11 @@ public class HintActivity extends AppCompatActivity {
         mHintImageView = (ImageView) findViewById(R.id.hintImageView);
         mHintTextView  = (TextView) findViewById(R.id.hintText);
         mHintInput     = (EditText) findViewById(R.id.hintLetterField);
+        resultDialog = new Dialog(this);
 
         mRandomImageNum = randomImage();
 
-        carHintText =  new String(new char[selection.getCarMake(mRandomImageNum).length()]).replace("\0", " _ ");
+        carHintText =  new String(new char[selection.getCarMake(mRandomImageNum).length()]).replace("\0", "-");
         mHintTextView.setText(carHintText);
     }
 
@@ -49,23 +57,56 @@ public class HintActivity extends AppCompatActivity {
 
     public void identifyHint(View view) {
 
-        String hintInput = mHintInput.getText().toString().trim();
-        Toast.makeText(this, hintInput, Toast.LENGTH_LONG).show();
+        Button hintButton = (Button) view;
+        String buttonContent = hintButton.getText().toString();
 
-        String selectedCar = selection.getCarMake(mRandomImageNum).toLowerCase();
-        StringBuilder modifiedCarMake = new StringBuilder(carHintText);
+        if(buttonContent.equals("Next")){
+            hintButton.setText(R.string.make_submit);
+            mRandomImageNum = randomImage();
 
-        if(selectedCar.contains(hintInput.toLowerCase())) {
-            for (int position = 0; position < selectedCar.length(); position++) {
-                if(selectedCar.charAt(position)  ==  hintInput.charAt(0)){
-                    modifiedCarMake.setCharAt(position,hintInput.charAt(0));
+            mHintInput.setEnabled(true);
+            mHintTextView.setText("");
+
+        }else {
+
+            String hintInput = mHintInput.getText().toString().trim();
+            Toast.makeText(this, hintInput, Toast.LENGTH_LONG).show();
+
+            String selectedCar = selection.getCarMake(mRandomImageNum).toLowerCase();
+            StringBuilder modifiedCarMake = new StringBuilder(carHintText);
+
+            if (selectedCar.contains(hintInput.toLowerCase())) {
+                for (int position = 0; position < selectedCar.length(); position++) {
+                    if (selectedCar.charAt(position) == hintInput.charAt(0)) {
+                        modifiedCarMake.setCharAt(position, hintInput.charAt(0));
+                    }
                 }
                 carHintText = modifiedCarMake.toString();
                 mHintTextView.setText(modifiedCarMake);
-            }
+                mHintInput.setText("");
 
-        }else{
-            Toast.makeText(this, "Letter is not available", Toast.LENGTH_LONG).show();
+                if (carHintText.equals(selectedCar)) {
+                    resultDialog.setContentView(R.layout.correctpopup);
+                    resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    resultDialog.show();
+
+                    hintButton.setText(R.string.next_item);
+                    mHintInput.setEnabled(false);
+                }
+
+            } else {
+                roundCount++;
+
+                if (roundCount > 2) {
+                    Toast.makeText(this, "maximum count reached", Toast.LENGTH_LONG).show();
+                    resultDialog.setContentView(R.layout.wrongpopup);
+                    resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    resultDialog.show();
+                } else {
+
+                    Toast.makeText(this, "Letter is not available" + roundCount, Toast.LENGTH_LONG).show();
+                }
+            }
         }
 
 
