@@ -12,6 +12,10 @@
     <string name="correct_answer">Correct Answer</string>
     <string name="wrong_text">wrong</string>
     <string name="guess_make">Guess Make</string>
+    <string name="imageBtnOne_Description">imageBtnOne</string>
+    <string name="imageBtnTwo_Description">imageBtnTwo</string>
+    <string name="imageBtnThree_Description">imageBtnThree</string>
+    <string name="cross_image">cross_image</string>
 
     <string-array name="car_make_array">
         <item>BMW</item>

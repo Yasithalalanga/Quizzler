@@ -12,7 +12,8 @@
         android:layout_height="150dp"
         android:layout_gravity="center"
         android:layout_marginTop="50dp"
-        android:src="@drawable/wrong_mark"/>
+        android:src="@drawable/wrong_mark"
+        android:contentDescription="@string/cross_image" />
 
     <TextView
         android:id="@+id/wrong_text"
