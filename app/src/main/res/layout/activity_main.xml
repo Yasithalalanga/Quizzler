@@ -10,7 +10,8 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="120dp"
-        android:src="@drawable/logoemp"/>
+        android:src="@drawable/logoemp"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/app_name"
@@ -86,6 +87,19 @@
         android:layout_alignParentBottom="true"
         android:gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:text="Yasitha Lalanga Gamage\n W1761101 | 2019419" />
+        android:text="@string/user_info" />
+
+    <Switch
+        android:id="@+id/advanceMode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="14dp"
+        android:text="@string/advancedMode"
+        tools:ignore="RelativeOverlap,UseSwitchCompatOrMaterialXml"
+        android:layout_marginEnd="14dp"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

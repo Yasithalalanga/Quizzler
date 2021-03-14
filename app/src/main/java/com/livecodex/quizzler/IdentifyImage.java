@@ -3,9 +3,11 @@ package com.livecodex.quizzler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -21,25 +23,36 @@ public class IdentifyImage extends AppCompatActivity {
     private ImageButton imageButtonTwo;
     private ImageButton imageButtonThree;
     private TextView randomCarName;
+    private TextView timerViewIdentify;
     private Dialog resultDialog;
 
     private String[] currentCarMakes;
     private String correctCarMake;
+    private boolean timerMode;
+    private CountDownTimer downTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identify_image);
 
+        Intent identifyIntent = getIntent();
+        timerMode = identifyIntent.getBooleanExtra("SwitchStatus", false);
+
         imageButtonOne = findViewById(R.id.imageBtnOne);
         imageButtonTwo = findViewById(R.id.imageBtnTwo);
         imageButtonThree = findViewById(R.id.imageBtnThree);
         randomCarName = findViewById(R.id.randomCarName);
+        timerViewIdentify = findViewById(R.id.timerViewIdentify);
 
         resultDialog = new Dialog(this);
         resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         setRandomImages();
+
+        if(timerMode){
+            countdownTimer();
+        }
 
     }
 
@@ -112,10 +125,44 @@ public class IdentifyImage extends AppCompatActivity {
 
     public void nextImageSet(View view) {
 
+        if(timerMode){
+            if(downTimer != null){
+                downTimer.cancel();
+                timerViewIdentify.setText("");
+            }
+            countdownTimer();
+        }
         setRandomImages();
 
         imageButtonOne.setEnabled(true);
         imageButtonTwo.setEnabled(true);
         imageButtonThree.setEnabled(true);
+    }
+
+    public void countdownTimer(){
+        downTimer = new CountDownTimer(20000, 1000) {
+            @Override
+            public void onTick(long milliSeconds) {
+                long seconds = milliSeconds /1000;
+                timerViewIdentify.setText(String.valueOf(seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                if(timerMode && downTimer != null){
+                    downTimer.cancel();
+                    timerViewIdentify.setText("");
+                }
+
+                imageButtonOne.setEnabled(false);
+                imageButtonTwo.setEnabled(false);
+                imageButtonThree.setEnabled(false);
+
+                resultDialog.setContentView(R.layout.wrongpopup);
+                TextView dialogCorrectText = resultDialog.findViewById(R.id.correct_answer_view);
+                dialogCorrectText.setText("FAILED TO SELECT AN OPTION. TRY AGAIN !!");
+                resultDialog.show();
+            }
+        }.start();
     }
 }

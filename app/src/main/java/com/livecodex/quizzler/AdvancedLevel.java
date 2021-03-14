@@ -3,9 +3,11 @@ package com.livecodex.quizzler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,8 +28,11 @@ public class AdvancedLevel extends AppCompatActivity {
     private EditText textFieldThree;
     private Dialog resultDialog;
     private TextView scoreCount;
+    private TextView timerViewAdvanced;
+    private Button submitBtn;
 
-
+    private CountDownTimer downTimer;
+    private boolean timerMode;
     private String[] currentCarMakes;
     private int totalAttempts = 3;
     private int currentScore = 0;
@@ -37,6 +42,9 @@ public class AdvancedLevel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_advanced_level);
 
+        Intent advancedIntent = getIntent();
+        timerMode = advancedIntent.getBooleanExtra("SwitchStatus", false);
+
         imageViewOne = findViewById(R.id.imageViewOne);
         imageViewTwo = findViewById(R.id.imageViewTwo);
         imageViewThree = findViewById(R.id.imageViewThree);
@@ -45,11 +53,17 @@ public class AdvancedLevel extends AppCompatActivity {
         textFieldTwo = findViewById(R.id.imageTwoField);
         textFieldThree = findViewById(R.id.imageThreeField);
         scoreCount = findViewById(R.id.scoreCount);
+        timerViewAdvanced = findViewById(R.id.timerViewAdvanced);
+        submitBtn = findViewById(R.id.submitBtn);
 
         resultDialog = new Dialog(this);
         resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         setRandomImages();
+
+        if(timerMode){
+            countdownTimer();
+        }
     }
 
     public void setRandomImages(){
@@ -91,6 +105,15 @@ public class AdvancedLevel extends AppCompatActivity {
             submitButton.setText(R.string.submit);
             setRandomImages();
 
+            if(timerMode){
+                if(downTimer != null){
+                    downTimer.cancel();
+                    timerViewAdvanced.setText("");
+                }
+                countdownTimer();
+            }
+
+
         }else {
 
             if (totalAttempts > 0) {
@@ -124,6 +147,14 @@ public class AdvancedLevel extends AppCompatActivity {
                     textFieldThree.setTextColor(Color.RED);
                 }
 
+                if(timerMode){
+                    if(downTimer != null){
+                        downTimer.cancel();
+                        timerViewAdvanced.setText("");
+                    }
+                    countdownTimer();
+                }
+
                 Toast.makeText(getApplicationContext(), imageOneGuess + currentCarMakes[0] + " " + imageTwoGuess + " " + imageThreeGuess + currentScore, Toast.LENGTH_SHORT).show();
 
             } else {
@@ -140,6 +171,11 @@ public class AdvancedLevel extends AppCompatActivity {
                 resultDialog.show();
                 correctAnswers();
                 submitButton.setText(R.string.next_item);
+
+                if(timerMode && downTimer != null){
+                    downTimer.cancel();
+                    timerViewAdvanced.setText("");
+                }
             }
 
             scoreCount.setText(String.valueOf(currentScore));
@@ -165,5 +201,24 @@ public class AdvancedLevel extends AppCompatActivity {
             textFieldThree.setTextColor(Color.RED);
         }
 
+    }
+
+    public void countdownTimer(){
+        downTimer = new CountDownTimer(20000, 1000) {
+            @Override
+            public void onTick(long milliSeconds) {
+                long seconds = milliSeconds /1000;
+                timerViewAdvanced.setText(String.valueOf(seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                if(timerMode && downTimer != null){
+                    downTimer.cancel();
+                    timerViewAdvanced.setText("");
+                }
+                submitBtn.performClick();
+            }
+        }.start();
     }
 }

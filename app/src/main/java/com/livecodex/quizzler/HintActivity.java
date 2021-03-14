@@ -3,9 +3,11 @@ package com.livecodex.quizzler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,25 +22,38 @@ public class HintActivity extends AppCompatActivity {
     private TextView mHintTextView;
     private EditText mHintInput;
     private Dialog resultDialog;
+    private TextView timerViewHint;
+    private Button hintSubmitBtn;
 
     private String mRandomImageMake;
     private int roundCount;
     private String carHintText;
+    private boolean timerMode;
+    private CountDownTimer downTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hint);
 
+        Intent hintIntent = getIntent();
+        timerMode = hintIntent.getBooleanExtra("SwitchStatus", false);
+
         mHintImageView = findViewById(R.id.hintImageView);
         mHintTextView  = findViewById(R.id.hintText);
         mHintInput     = findViewById(R.id.hintLetterField);
+        timerViewHint  = findViewById(R.id.timerViewHint);
+        hintSubmitBtn  = findViewById(R.id.hint_submit);
         resultDialog = new Dialog(this);
 
         mRandomImageMake = Services.randomizedImage(mHintImageView,getApplicationContext());
 
         carHintText =  new String(new char[mRandomImageMake.length()]).replace("\0", "-");
         mHintTextView.setText(carHintText);
+
+        if(timerMode){
+            countdownTimer();
+        }
     }
 
 
@@ -56,6 +71,15 @@ public class HintActivity extends AppCompatActivity {
 
             carHintText =  new String(new char[mRandomImageMake.length()]).replace("\0", "-");
             mHintTextView.setText(carHintText);
+
+            if(timerMode){
+                if(downTimer != null){
+                    downTimer.cancel();
+                    timerViewHint.setText("");
+                }
+                countdownTimer();
+            }
+
 
         }else {
 
@@ -107,6 +131,25 @@ public class HintActivity extends AppCompatActivity {
             }
         }
 
-
     }
+
+    public void countdownTimer(){
+        downTimer = new CountDownTimer(20000, 1000) {
+            @Override
+            public void onTick(long milliSeconds) {
+                long seconds = milliSeconds /1000;
+                timerViewHint.setText(String.valueOf(seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                if(timerMode && downTimer != null){
+                    downTimer.cancel();
+                    timerViewHint.setText("");
+                }
+                hintSubmitBtn.performClick();
+            }
+        }.start();
+    }
+
 }

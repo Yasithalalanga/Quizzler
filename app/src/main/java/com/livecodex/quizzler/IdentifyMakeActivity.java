@@ -3,9 +3,11 @@ package com.livecodex.quizzler;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -27,16 +29,24 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
     private String spinnerCarMakes;
     private String makeTestRand;
+    private CountDownTimer downTimer;
+    private boolean timerMode;
+    private TextView timerViewMake;
+    private Button makeSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identify_make);
 
-        resultDialog = new Dialog(this);
+        Intent makeIntent = getIntent();
+        timerMode = makeIntent.getBooleanExtra("SwitchStatus", false);
 
+        resultDialog = new Dialog(this);
         randomImageView = findViewById(R.id.imageView) ;
         mSpinner = findViewById(R.id.makeSpinner);
+        timerViewMake = findViewById(R.id.timerViewMake);
+        makeSubmit = findViewById(R.id.makeSubmit);
 
         if(mSpinner != null){
             mSpinner.setOnItemSelectedListener(this);
@@ -51,6 +61,10 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
         }
 
         makeTestRand = Services.randomizedImage(randomImageView,getApplicationContext());
+
+        if(timerMode){
+            countdownTimer();
+        }
     }
 
 
@@ -76,6 +90,14 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
             mSpinner.setEnabled(true);
 
+            if(timerMode){
+                if(downTimer != null){
+                    downTimer.cancel();
+                    timerViewMake.setText("");
+                }
+                countdownTimer();
+            }
+
         }else{
 
             mSpinner.setEnabled(false);
@@ -95,7 +117,25 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
             makeButton.setText(R.string.next_item);
         }
 
-
-
     }
+
+    public void countdownTimer(){
+        downTimer = new CountDownTimer(20000, 1000) {
+            @Override
+            public void onTick(long milliSeconds) {
+                long seconds = milliSeconds /1000;
+                timerViewMake.setText(String.valueOf(seconds));
+            }
+
+            @Override
+            public void onFinish() {
+                if(timerMode && downTimer != null){
+                    downTimer.cancel();
+                    timerViewMake.setText("");
+                }
+                makeSubmit.performClick();
+            }
+        }.start();
+    }
+    
 }
