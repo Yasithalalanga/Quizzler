@@ -2,80 +2,120 @@ package com.livecodex.quizzler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.livecodex.quizzler.utils.Services;
+
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class IdentifyImage extends AppCompatActivity {
 
     private ImageButton imageButtonOne;
     private ImageButton imageButtonTwo;
     private ImageButton imageButtonThree;
-    private final Selections selections = new Selections();
+    private TextView randomCarName;
+    private Dialog resultDialog;
+
+    private String[] currentCarMakes;
+    private String correctCarMake;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identify_image);
 
-        imageButtonOne = (ImageButton) findViewById(R.id.imageBtnOne);
-        imageButtonTwo = (ImageButton) findViewById(R.id.imageBtnTwo);
-        imageButtonThree = (ImageButton) findViewById(R.id.imageBtnThree);
+        imageButtonOne = findViewById(R.id.imageBtnOne);
+        imageButtonTwo = findViewById(R.id.imageBtnTwo);
+        imageButtonThree = findViewById(R.id.imageBtnThree);
+        randomCarName = findViewById(R.id.randomCarName);
 
-        threeRandomImages(11);
+        resultDialog = new Dialog(this);
+        resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        setRandomImages();
 
     }
 
-    public int randomImage(ImageButton view) {
-        Random rand = new Random();
-        int randomImageOneNo = rand.nextInt(10);
+    public void setRandomImages(){
+        currentCarMakes = new String[3];
 
-        String imageUri = "img_" + randomImageOneNo;
-        int resource_id = getResources().getIdentifier(imageUri, "drawable", "com.livecodex.quizzler");
-
-        view.setImageResource(resource_id);
-        return randomImageOneNo;
-    }
-
-    public void threeRandomImages(int noImages) {
-
-        Random rand = new Random();
-        int randomImageOneNo = rand.nextInt(noImages);
-        int randomImageTwoNo;
-        int randomImageThreeNo;
+        //Displaying three different images
+        currentCarMakes[0] = Services.randomizedImage(imageButtonOne, getApplicationContext());
 
         do{
-            randomImageTwoNo = rand.nextInt(noImages);
-            Log.d("Random Two", String.valueOf(randomImageTwoNo) + " " + selections.getCarMake(randomImageOneNo));
-        }while (selections.getCarMake(randomImageOneNo).equals(selections.getCarMake(randomImageTwoNo)));
+            currentCarMakes[1] = Services.randomizedImage(imageButtonTwo, getApplicationContext());
+        }while (currentCarMakes[1].equalsIgnoreCase(currentCarMakes[0]));
 
-        do {
-            randomImageThreeNo = rand.nextInt(noImages);
-            Log.d("Random Three", String.valueOf(randomImageThreeNo) + " " + selections.getCarMake(randomImageThreeNo));
-        }while (selections.getCarMake(randomImageOneNo).equals(selections.getCarMake(randomImageTwoNo)) &
-                selections.getCarMake(randomImageOneNo).equals(selections.getCarMake(randomImageOneNo)));
+        do{
+            currentCarMakes[2] = Services.randomizedImage(imageButtonThree, getApplicationContext());
+        }while (currentCarMakes[2].equalsIgnoreCase(currentCarMakes[1]) || currentCarMakes[2].equalsIgnoreCase(currentCarMakes[0]));
 
-        Toast.makeText(this,selections.getCarMake(randomImageOneNo) + " " +
-                selections.getCarMake(randomImageTwoNo) + " " + selections.getCarMake(randomImageThreeNo), Toast.LENGTH_LONG ).show();
+        correctCarMake = randomizedCarMake(currentCarMakes);
+        Toast.makeText(this,correctCarMake,Toast.LENGTH_SHORT).show();
+    }
 
-        int resource_idOne   = getResources().getIdentifier("img_" + randomImageOneNo, "drawable", "com.livecodex.quizzler");
-        int resource_idTwo   = getResources().getIdentifier("img_" + randomImageTwoNo, "drawable", "com.livecodex.quizzler");
-        int resource_idThree = getResources().getIdentifier("img_" + randomImageThreeNo, "drawable", "com.livecodex.quizzler");
+    public String randomizedCarMake(String[] currentMakes){
+        Random rand = new Random();
+        int randomNum = rand.nextInt(currentMakes.length);
 
-        imageButtonOne.setImageResource(resource_idOne);
-        imageButtonTwo.setImageResource(resource_idTwo);
-        imageButtonThree.setImageResource(resource_idThree);
+        String randomCarMake = currentMakes[randomNum];
+        randomCarName.setText(randomCarMake);
+        return  randomCarMake;
+    }
 
+    public void imageOneSelected(View view) {
+        if(currentCarMakes[0].equals(correctCarMake)){
+            resultDialog.setContentView(R.layout.correctpopup);
+        }else {
+            resultDialog.setContentView(R.layout.wrongpopup);
+        }
+        resultDialog.show();
+
+        imageButtonOne.setEnabled(false);
+        imageButtonTwo.setEnabled(false);
+        imageButtonThree.setEnabled(false);
+    }
+
+    public void imageTwoSelected(View view) {
+        if(currentCarMakes[1].equals(correctCarMake)){
+            resultDialog.setContentView(R.layout.correctpopup);
+        }else {
+            resultDialog.setContentView(R.layout.wrongpopup);
+        }
+        resultDialog.show();
+
+        imageButtonOne.setEnabled(false);
+        imageButtonTwo.setEnabled(false);
+        imageButtonThree.setEnabled(false);
+    }
+
+    public void imageThreeSelected(View view) {
+        if(currentCarMakes[2].equals(correctCarMake)){
+            resultDialog.setContentView(R.layout.correctpopup);
+        }else {
+            resultDialog.setContentView(R.layout.wrongpopup);
+        }
+        resultDialog.show();
+
+        imageButtonOne.setEnabled(false);
+        imageButtonTwo.setEnabled(false);
+        imageButtonThree.setEnabled(false);
     }
 
 
+    public void nextImageSet(View view) {
+
+        setRandomImages();
+
+        imageButtonOne.setEnabled(true);
+        imageButtonTwo.setEnabled(true);
+        imageButtonThree.setEnabled(true);
+    }
 }

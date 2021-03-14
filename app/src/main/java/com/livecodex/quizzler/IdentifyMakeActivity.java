@@ -15,7 +15,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.Random;
+import com.livecodex.quizzler.utils.Selections;
+import com.livecodex.quizzler.utils.Services;
+
 
 public class IdentifyMakeActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -23,11 +25,8 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
     private Spinner mSpinner;
     private Dialog resultDialog;
 
-    private TextView dialogCorrectText;
-
     private String spinnerCarMakes;
-    private int makeTestRand;
-    private final Selections selections = new Selections();
+    private String makeTestRand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,33 +35,24 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
         resultDialog = new Dialog(this);
 
-        randomImageView = (ImageView) findViewById(R.id.imageView) ;
-        mSpinner = (Spinner) findViewById(R.id.makeSpinner);
+        randomImageView = findViewById(R.id.imageView) ;
+        mSpinner = findViewById(R.id.makeSpinner);
 
         if(mSpinner != null){
             mSpinner.setOnItemSelectedListener(this);
         }
 
         // Spinner items loaded from the string array
-        ArrayAdapter<String> adapter= new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, selections.getMakes());
+        ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Selections.getMakes());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         if(mSpinner != null){
             mSpinner.setAdapter(adapter);
         }
 
-        makeTestRand = randomImage();
+        makeTestRand = Services.randomizedImage(randomImageView,getApplicationContext());
     }
 
-    public int randomImage(){
-        Random rand = new Random();
-        int randomImageNo = rand.nextInt(10);
-        String imageUri = "img_"+ randomImageNo;
-        int resource_id = getResources().getIdentifier(imageUri,"drawable", "com.livecodex.quizzler");
-
-        randomImageView.setImageResource(resource_id);
-        return randomImageNo;
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -82,7 +72,7 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
         if(buttonContent.equals("Next")){
             makeButton.setText(R.string.make_submit);
-            makeTestRand = randomImage();
+            makeTestRand = Services.randomizedImage(randomImageView,getApplicationContext());
 
             mSpinner.setEnabled(true);
 
@@ -90,14 +80,14 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
 
             mSpinner.setEnabled(false);
 
-            if(spinnerCarMakes.equals(selections.getCarMake(makeTestRand))){
+            if(spinnerCarMakes.equals(makeTestRand)){
                 // Showing the correct dialog
                 resultDialog.setContentView(R.layout.correctpopup);
 
             }else{
                 resultDialog.setContentView(R.layout.wrongpopup);
-                dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
-                dialogCorrectText.setText(selections.getCarMake(makeTestRand));
+                TextView dialogCorrectText = resultDialog.findViewById(R.id.correct_answer_view);
+                dialogCorrectText.setText(makeTestRand);
 
             }
             resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

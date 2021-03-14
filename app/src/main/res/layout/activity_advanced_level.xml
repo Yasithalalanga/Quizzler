@@ -1,9 +1,114 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdvancedLevel">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+       <ImageView
+           android:id="@+id/imageViewOne"
+           android:layout_width="155dp"
+           android:layout_height="153dp"
+           android:layout_marginStart="16dp"
+           android:layout_marginLeft="16dp"
+           android:layout_marginTop="32dp"
+           android:layout_marginBottom="24dp"
+           app:layout_constraintBottom_toTopOf="@+id/imageViewTwo"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="0.55"
+           tools:srcCompat="@tools:sample/avatars" />
+
+       <ImageView
+           android:id="@+id/imageViewTwo"
+           android:layout_width="155dp"
+           android:layout_height="153dp"
+           android:layout_marginStart="16dp"
+           android:layout_marginLeft="16dp"
+           android:layout_marginBottom="24dp"
+           app:layout_constraintBottom_toTopOf="@+id/imageViewThree"
+           app:layout_constraintStart_toStartOf="parent"
+           tools:srcCompat="@tools:sample/avatars" />
+
+       <ImageView
+           android:id="@+id/imageViewThree"
+           android:layout_width="155dp"
+           android:layout_height="153dp"
+           android:layout_marginStart="16dp"
+           android:layout_marginLeft="16dp"
+           android:layout_marginBottom="24dp"
+           app:layout_constraintBottom_toTopOf="@+id/submitBtn"
+           app:layout_constraintStart_toStartOf="parent"
+           tools:srcCompat="@tools:sample/avatars" />
+
+       <EditText
+           android:id="@+id/imageOneField"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginEnd="24dp"
+           android:layout_marginRight="24dp"
+           android:ems="10"
+           android:hint="@string/car_manufacture"
+           android:inputType="text"
+           app:layout_constraintBottom_toBottomOf="@+id/imageViewOne"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintHorizontal_bias="1.0"
+           app:layout_constraintStart_toEndOf="@+id/imageViewOne"
+           app:layout_constraintTop_toTopOf="@+id/imageViewOne"
+           app:layout_constraintVertical_bias="0.509" />
+
+       <EditText
+           android:id="@+id/imageTwoField"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginEnd="24dp"
+           android:layout_marginRight="24dp"
+           android:ems="10"
+           android:hint="@string/car_manufacture"
+           android:inputType="text"
+           app:layout_constraintBottom_toBottomOf="@+id/imageViewTwo"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toEndOf="@+id/imageViewTwo"
+           app:layout_constraintTop_toTopOf="@+id/imageViewTwo" />
+
+       <EditText
+           android:id="@+id/imageThreeField"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginEnd="24dp"
+           android:layout_marginRight="24dp"
+           android:ems="10"
+           android:hint="@string/car_manufacture"
+           android:inputType="text"
+           app:layout_constraintBottom_toBottomOf="@+id/imageViewThree"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toEndOf="@+id/imageViewThree"
+           app:layout_constraintTop_toBottomOf="@+id/imageViewTwo" />
+
+       <Button
+           android:id="@+id/submitBtn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="24dp"
+           android:text="@string/submit"
+           android:onClick="checkOnSubmit"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent" />
+
+       <TextView
+           android:id="@+id/scoreCount"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="0"
+           app:layout_constraintBottom_toTopOf="@+id/imageOneField"
+           app:layout_constraintEnd_toEndOf="@+id/imageOneField"
+           app:layout_constraintStart_toEndOf="@+id/imageViewOne"
+           app:layout_constraintTop_toTopOf="parent" />
+   </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

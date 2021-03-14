@@ -7,7 +7,7 @@
     tools:context=".IdentifyImage">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/nextSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -15,13 +15,14 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/identify_image_btn"
+        android:text="@string/next_item"
+        android:onClick="nextImageSet"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/randomCarName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -29,43 +30,46 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
-        android:text=""
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/nextSet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageBtnOne"
-        android:layout_width="204dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageBtnTwo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/imageBtnOne_Description" />
-
-    <ImageButton
         android:id="@+id/imageBtnTwo"
-        android:layout_width="204dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_width="155dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:onClick="imageTwoSelected"
+        android:contentDescription="@string/imageBtnTwo_Description"
+        android:scaleType="fitCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars"
-        android:contentDescription="@string/imageBtnTwo_Description" />
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <ImageButton
+        android:id="@+id/imageBtnOne"
+        android:layout_width="155dp"
+        android:layout_height="153dp"
+        android:layout_marginTop="48dp"
+        android:scaleType="fitCenter"
+        android:onClick="imageOneSelected"
+        android:contentDescription="@string/imageBtnOne_Description"
+        app:layout_constraintEnd_toStartOf="@+id/imageBtnTwo"
+        app:layout_constraintHorizontal_bias="0.304"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
         android:id="@+id/imageBtnThree"
-        android:layout_width="152dp"
-        android:layout_height="147dp"
-        android:layout_marginTop="24dp"
+        android:layout_width="155dp"
+        android:layout_height="153dp"
+        android:scaleType="fitCenter"
+        android:onClick="imageThreeSelected"
         android:contentDescription="@string/imageBtnThree_Description"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@+id/randomCarName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageBtnOne"

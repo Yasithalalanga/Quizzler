@@ -12,8 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Random;
+import com.livecodex.quizzler.utils.Services;
 
 public class HintActivity extends AppCompatActivity {
 
@@ -22,38 +21,24 @@ public class HintActivity extends AppCompatActivity {
     private EditText mHintInput;
     private Dialog resultDialog;
 
-    private TextView dialogCorrectText;
-
-    private int mRandomImageNum;
+    private String mRandomImageMake;
     private int roundCount;
     private String carHintText;
-
-    private final Selections selection = new Selections();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hint);
 
-        mHintImageView = (ImageView) findViewById(R.id.hintImageView);
-        mHintTextView  = (TextView) findViewById(R.id.hintText);
-        mHintInput     = (EditText) findViewById(R.id.hintLetterField);
+        mHintImageView = findViewById(R.id.hintImageView);
+        mHintTextView  = findViewById(R.id.hintText);
+        mHintInput     = findViewById(R.id.hintLetterField);
         resultDialog = new Dialog(this);
 
-        mRandomImageNum = randomImage();
+        mRandomImageMake = Services.randomizedImage(mHintImageView,getApplicationContext());
 
-        carHintText =  new String(new char[selection.getCarMake(mRandomImageNum).length()]).replace("\0", "-");
+        carHintText =  new String(new char[mRandomImageMake.length()]).replace("\0", "-");
         mHintTextView.setText(carHintText);
-    }
-
-    public int randomImage(){
-        Random rand = new Random();
-        int randomImageNo = rand.nextInt(10);
-        String imageUri = "img_"+ randomImageNo;
-        int resource_id = getResources().getIdentifier(imageUri,"drawable", "com.livecodex.quizzler");
-
-        mHintImageView.setImageResource(resource_id);
-        return randomImageNo;
     }
 
 
@@ -64,12 +49,12 @@ public class HintActivity extends AppCompatActivity {
 
         if(buttonContent.equals("Next")){
             hintButton.setText(R.string.make_submit);
-            mRandomImageNum = randomImage();
+            mRandomImageMake = Services.randomizedImage(mHintImageView,getApplicationContext());
 
             mHintInput.setEnabled(true);
             mHintTextView.setText("");
 
-            carHintText =  new String(new char[selection.getCarMake(mRandomImageNum).length()]).replace("\0", "-");
+            carHintText =  new String(new char[mRandomImageMake.length()]).replace("\0", "-");
             mHintTextView.setText(carHintText);
 
         }else {
@@ -77,7 +62,7 @@ public class HintActivity extends AppCompatActivity {
             String hintInput = mHintInput.getText().toString().trim();
             Toast.makeText(this, hintInput, Toast.LENGTH_LONG).show();
 
-            String selectedCar = selection.getCarMake(mRandomImageNum).toLowerCase();
+            String selectedCar = mRandomImageMake.toLowerCase();
             StringBuilder modifiedCarMake = new StringBuilder(carHintText);
 
             if (selectedCar.contains(hintInput.toLowerCase())) {
@@ -105,8 +90,8 @@ public class HintActivity extends AppCompatActivity {
                 if (roundCount > 2) {
                     Toast.makeText(this, "maximum count reached", Toast.LENGTH_LONG).show();
                     resultDialog.setContentView(R.layout.wrongpopup);
-                    dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
-                    dialogCorrectText.setText(selection.getCarMake(mRandomImageNum));
+                    TextView dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
+                    dialogCorrectText.setText(mRandomImageMake);
                     resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                     resultDialog.show();
 

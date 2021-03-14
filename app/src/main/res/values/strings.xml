@@ -16,6 +16,8 @@
     <string name="imageBtnTwo_Description">imageBtnTwo</string>
     <string name="imageBtnThree_Description">imageBtnThree</string>
     <string name="cross_image">cross_image</string>
+    <string name="car_manufacture">Car Manufacture</string>
+    <string name="submit">Submit</string>
 
     <string-array name="car_make_array">
         <item>BMW</item>
