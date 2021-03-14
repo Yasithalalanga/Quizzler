@@ -30,6 +30,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
         android:layout_marginBottom="32dp"
+        android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/nextSet"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -41,9 +42,11 @@
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-        android:onClick="imageTwoSelected"
         android:contentDescription="@string/imageBtnTwo_Description"
+        android:onClick="imageTwoSelected"
         android:scaleType="fitCenter"
+        android:background="@drawable/round_button"
+        app:layout_constraintBottom_toTopOf="@+id/imageBtnThree"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars" />
@@ -53,26 +56,29 @@
         android:layout_width="155dp"
         android:layout_height="153dp"
         android:layout_marginTop="48dp"
-        android:scaleType="fitCenter"
-        android:onClick="imageOneSelected"
         android:contentDescription="@string/imageBtnOne_Description"
+        android:onClick="imageOneSelected"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/imageBtnThree"
         app:layout_constraintEnd_toStartOf="@+id/imageBtnTwo"
         app:layout_constraintHorizontal_bias="0.304"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/round_button"
         tools:srcCompat="@tools:sample/avatars" />
 
     <ImageButton
         android:id="@+id/imageBtnThree"
         android:layout_width="155dp"
         android:layout_height="153dp"
-        android:scaleType="fitCenter"
-        android:onClick="imageThreeSelected"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/round_button"
         android:contentDescription="@string/imageBtnThree_Description"
+        android:onClick="imageThreeSelected"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toTopOf="@+id/randomCarName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageBtnOne"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView

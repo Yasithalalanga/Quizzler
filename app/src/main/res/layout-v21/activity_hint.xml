@@ -11,12 +11,12 @@
         android:id="@+id/hint_submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/make_submit"
+        android:layout_marginBottom="50dp"
         android:onClick="identifyHint"
+        android:text="@string/make_submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hintLetterField" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/hintImageView"
@@ -37,29 +37,31 @@
         android:id="@+id/hintText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
         android:letterSpacing="0.6"
-        android:text="test"
+        android:textAllCaps="true"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hintImageView" />
+        tools:ignore="MissingConstraints" />
 
     <EditText
         android:id="@+id/hintLetterField"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
+        android:layout_marginBottom="16dp"
         android:ems="10"
-        android:maxLength="1"
-        android:inputType="text"
-        android:hint="@string/guess_make"
         android:gravity="center_horizontal"
+        android:hint="@string/guess_make"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLength="1"
+        app:layout_constraintBottom_toTopOf="@+id/hint_submit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/hintText"
-        android:importantForAutofill="no" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/timerViewHint"
@@ -75,5 +77,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.48" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="Guess the Make"
+        android:textAllCaps="true"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/hintLetterField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

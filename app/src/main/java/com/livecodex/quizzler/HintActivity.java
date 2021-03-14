@@ -30,6 +30,7 @@ public class HintActivity extends AppCompatActivity {
     private String carHintText;
     private boolean timerMode;
     private CountDownTimer downTimer;
+    private int totalAttempts = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,51 +84,67 @@ public class HintActivity extends AppCompatActivity {
 
         }else {
 
-            String hintInput = mHintInput.getText().toString().trim();
-            Toast.makeText(this, hintInput, Toast.LENGTH_LONG).show();
+            if(totalAttempts > 0) {
+                totalAttempts--;
 
-            String selectedCar = mRandomImageMake.toLowerCase();
-            StringBuilder modifiedCarMake = new StringBuilder(carHintText);
+                String hintInput = mHintInput.getText().toString().trim();
+                Toast.makeText(this, hintInput, Toast.LENGTH_LONG).show();
 
-            if (selectedCar.contains(hintInput.toLowerCase())) {
-                for (int position = 0; position < selectedCar.length(); position++) {
-                    if (selectedCar.charAt(position) == hintInput.charAt(0)) {
-                        modifiedCarMake.setCharAt(position, hintInput.charAt(0));
+                String selectedCar = mRandomImageMake.toLowerCase();
+                StringBuilder modifiedCarMake = new StringBuilder(carHintText);
+
+                if (selectedCar.contains(hintInput.toLowerCase())) {
+                    for (int position = 0; position < selectedCar.length(); position++) {
+                        if (selectedCar.charAt(position) == hintInput.charAt(0)) {
+                            modifiedCarMake.setCharAt(position, hintInput.charAt(0));
+                        }
                     }
-                }
-                carHintText = modifiedCarMake.toString();
-                mHintTextView.setText(modifiedCarMake);
-                mHintInput.setText("");
-
-                if (carHintText.equals(selectedCar)) {
-                    resultDialog.setContentView(R.layout.correctpopup);
-                    resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    resultDialog.show();
-
-                    hintButton.setText(R.string.next_item);
-                    mHintInput.setEnabled(false);
-                }
-
-            } else {
-                roundCount++;
-
-                if (roundCount > 2) {
-                    Toast.makeText(this, "maximum count reached", Toast.LENGTH_LONG).show();
-                    resultDialog.setContentView(R.layout.wrongpopup);
-                    TextView dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
-                    dialogCorrectText.setText(mRandomImageMake);
-                    resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    resultDialog.show();
-
-
-                    hintButton.setText(R.string.next_item);
-                    mHintInput.setEnabled(false);
+                    carHintText = modifiedCarMake.toString();
+                    mHintTextView.setText(modifiedCarMake);
                     mHintInput.setText("");
 
-                } else {
+                    if (carHintText.equals(selectedCar)) {
+                        resultDialog.setContentView(R.layout.correctpopup);
+                        resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        resultDialog.show();
 
-                    Toast.makeText(this, "Letter is not available" + roundCount, Toast.LENGTH_LONG).show();
+                        hintButton.setText(R.string.next_item);
+                        mHintInput.setEnabled(false);
+                    }
+
+                } else {
+                    roundCount++;
+
+                    if (roundCount > 2) {
+                        Toast.makeText(this, "maximum count reached", Toast.LENGTH_LONG).show();
+                        resultDialog.setContentView(R.layout.wrongpopup);
+                        TextView dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
+                        dialogCorrectText.setText(mRandomImageMake);
+                        resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        resultDialog.show();
+
+
+                        hintButton.setText(R.string.next_item);
+                        mHintInput.setEnabled(false);
+                        mHintInput.setText("");
+
+                    } else {
+
+                        Toast.makeText(this, "Letter is not available" + roundCount, Toast.LENGTH_LONG).show();
+                    }
                 }
+
+                if(timerMode){
+                    if(downTimer != null){
+                        downTimer.cancel();
+                        timerViewHint.setText("");
+                    }
+                    countdownTimer();
+                }
+
+
+            }else{
+                Toast.makeText(getApplicationContext(), "Limit Exceeded", Toast.LENGTH_SHORT).show();
             }
         }
 

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Quizzler</string>
-    <string name="lorem_50">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod vulputate lobortis.</string>
+    <string name="app_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin euismod vulputate lobortis.</string>
     <string name="identify_make_btn">Identify Make</string>
-    <string name="hint_btn">Hint</string>
+    <string name="hint_btn">Hint Text</string>
     <string name="identify_image_btn">Identify Image</string>
     <string name="advanced_level_btn">Advanced Level</string>
     <string name="identify_make">Identify Car Make</string>
@@ -18,13 +18,9 @@
     <string name="cross_image">cross_image</string>
     <string name="car_manufacture">Car Manufacture</string>
     <string name="submit">Submit</string>
-    <string name="user_info">Yasitha Lalanga Gamage\n W1761101 | 2019419</string>
-    <string name="advancedMode">Advanced</string>
-
-    <string-array name="car_make_array">
-        <item>BMW</item>
-        <item>Tesla</item>
-        <item>Test</item>
-        <item>Test</item>
-    </string-array>
+    <string name="user_info">Yasitha Lalanga Gamage W1761101 | 2019419</string>
+    <string name="advancedMode">Timer </string>
+    <string name="todo">TODO</string>
+    <string name="select_an_option">Select an Option</string>
+    <string name="identify_make_text">Identify Make</string>
 </resources>
