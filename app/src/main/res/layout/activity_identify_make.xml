@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".IdentifyMakeActivity"
-    android:background="@drawable/ic_subscreen">
+    android:background="@drawable/ic_subscreen"
+    tools:context=".IdentifyMakeActivity">
 
     <ImageView
         android:id="@+id/imageView"
@@ -50,17 +50,17 @@
 
     <TextView
         android:id="@+id/timerViewMake"
-        android:layout_width="58dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
+        android:gravity="center_horizontal"
+        android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        android:gravity="center_horizontal" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/textView"

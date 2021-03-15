@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.livecodex.quizzler.utils.Services;
 
 public class HintActivity extends AppCompatActivity {
@@ -41,18 +42,18 @@ public class HintActivity extends AppCompatActivity {
         timerMode = hintIntent.getBooleanExtra("SwitchStatus", false);
 
         mHintImageView = findViewById(R.id.hintImageView);
-        mHintTextView  = findViewById(R.id.hintText);
-        mHintInput     = findViewById(R.id.hintLetterField);
-        timerViewHint  = findViewById(R.id.timerViewHint);
-        hintSubmitBtn  = findViewById(R.id.hint_submit);
+        mHintTextView = findViewById(R.id.hintText);
+        mHintInput = findViewById(R.id.hintLetterField);
+        timerViewHint = findViewById(R.id.timerViewHint);
+        hintSubmitBtn = findViewById(R.id.hint_submit);
         resultDialog = new Dialog(this);
 
-        mRandomImageMake = Services.randomizedImage(mHintImageView,getApplicationContext());
+        mRandomImageMake = Services.randomizedImage(mHintImageView, getApplicationContext());
 
-        carHintText =  new String(new char[mRandomImageMake.length()]).replace("\0", "-");
+        carHintText = new String(new char[mRandomImageMake.length()]).replace("\0", "-");
         mHintTextView.setText(carHintText);
 
-        if(timerMode){
+        if (timerMode) {
             countdownTimer();
         }
     }
@@ -63,18 +64,18 @@ public class HintActivity extends AppCompatActivity {
         Button hintButton = (Button) view;
         String buttonContent = hintButton.getText().toString();
 
-        if(buttonContent.equals("Next")){
+        if (buttonContent.equals("Next")) {
             hintButton.setText(R.string.make_submit);
-            mRandomImageMake = Services.randomizedImage(mHintImageView,getApplicationContext());
+            mRandomImageMake = Services.randomizedImage(mHintImageView, getApplicationContext());
 
             mHintInput.setEnabled(true);
             mHintTextView.setText("");
 
-            carHintText =  new String(new char[mRandomImageMake.length()]).replace("\0", "-");
+            carHintText = new String(new char[mRandomImageMake.length()]).replace("\0", "-");
             mHintTextView.setText(carHintText);
 
-            if(timerMode){
-                if(downTimer != null){
+            if (timerMode) {
+                if (downTimer != null) {
                     downTimer.cancel();
                     timerViewHint.setText("");
                 }
@@ -82,18 +83,16 @@ public class HintActivity extends AppCompatActivity {
             }
 
 
-        }else {
+        } else {
 
-            if(totalAttempts > 0) {
-                totalAttempts--;
+            if (totalAttempts > 0) {
 
                 String hintInput = mHintInput.getText().toString().trim();
-                Toast.makeText(this, hintInput, Toast.LENGTH_LONG).show();
 
                 String selectedCar = mRandomImageMake.toLowerCase();
                 StringBuilder modifiedCarMake = new StringBuilder(carHintText);
 
-                if (selectedCar.contains(hintInput.toLowerCase())) {
+                if ((selectedCar.contains(hintInput.toLowerCase())) && (!hintInput.equals(""))) {
                     for (int position = 0; position < selectedCar.length(); position++) {
                         if (selectedCar.charAt(position) == hintInput.charAt(0)) {
                             modifiedCarMake.setCharAt(position, hintInput.charAt(0));
@@ -116,10 +115,11 @@ public class HintActivity extends AppCompatActivity {
                     roundCount++;
 
                     if (roundCount > 2) {
-                        Toast.makeText(this, "maximum count reached", Toast.LENGTH_LONG).show();
                         resultDialog.setContentView(R.layout.wrongpopup);
+
                         TextView dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
                         dialogCorrectText.setText(mRandomImageMake);
+
                         resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         resultDialog.show();
 
@@ -128,39 +128,38 @@ public class HintActivity extends AppCompatActivity {
                         mHintInput.setEnabled(false);
                         mHintInput.setText("");
 
+                        if (timerMode && downTimer != null) {
+                            downTimer.cancel();
+                            timerViewHint.setText("");
+                        }
+
                     } else {
 
-                        Toast.makeText(this, "Letter is not available" + roundCount, Toast.LENGTH_LONG).show();
+                        totalAttempts--;
+                        Toast.makeText(this, "Letter is not available, Rounds Left: " + (3 - roundCount), Toast.LENGTH_SHORT).show();
+
                     }
                 }
 
-                if(timerMode){
-                    if(downTimer != null){
-                        downTimer.cancel();
-                        timerViewHint.setText("");
-                    }
-                    countdownTimer();
-                }
 
-
-            }else{
+            } else {
                 Toast.makeText(getApplicationContext(), "Limit Exceeded", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
 
-    public void countdownTimer(){
+    public void countdownTimer() {
         downTimer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long milliSeconds) {
-                long seconds = milliSeconds /1000;
+                long seconds = milliSeconds / 1000;
                 timerViewHint.setText(String.valueOf(seconds));
             }
 
             @Override
             public void onFinish() {
-                if(timerMode && downTimer != null){
+                if (timerMode && downTimer != null) {
                     downTimer.cancel();
                     timerViewHint.setText("");
                 }
@@ -169,4 +168,17 @@ public class HintActivity extends AppCompatActivity {
         }.start();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (timerMode) downTimer.cancel();
+        resultDialog.cancel();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (timerMode) downTimer.cancel();
+        resultDialog.cancel();
+        return super.onSupportNavigateUp();
+    }
 }

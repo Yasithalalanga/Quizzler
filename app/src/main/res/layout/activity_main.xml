@@ -4,26 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    android:background="@drawable/ic_mainscreen"
     android:orientation="vertical"
-    android:background="@drawable/ic_mainscreen">
+    tools:context=".MainActivity">
 
     <Switch
         android:id="@+id/advanceMode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="20dp"
-        android:paddingRight="10dp"
         android:layout_gravity="end"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="5dp"
-        android:paddingEnd="10dp"
-        android:paddingStart="20dp"
         android:layout_marginEnd="5dp"
-        android:textColor="@color/white"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/round_button"
+        android:paddingStart="20dp"
+        android:paddingLeft="20dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
         android:text="@string/advancedMode"
         android:textAllCaps="true"
-        android:background="@drawable/round_button"
+        android:textColor="@color/white"
         tools:ignore="RelativeOverlap,UseSwitchCompatOrMaterialXml" />
 
     <ImageView
@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="19dp"
         android:contentDescription="@string/todo"
-        android:src="@drawable/logoeSample" />
+        android:src="@drawable/sample" />
 
     <TextView
         android:id="@+id/app_name"
@@ -50,13 +50,13 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:text="@string/app_desc"
+        android:layout_margin="15dp"
         android:gravity="center_horizontal"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:layout_margin="15dp"/>
+        android:text="@string/app_desc"
+        android:textAlignment="center"
+        android:textColor="@color/black" />
 
     <LinearLayout
         android:id="@+id/button_stack"
@@ -84,33 +84,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:onClick="hintCars"
             android:layout_weight="1"
             android:background="@drawable/round_button"
-            app:backgroundTint="@null"
-            android:text="@string/hint_btn" />
+            android:onClick="hintCars"
+            android:text="@string/hint_btn"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/identify_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:onClick="identifyImage"
             android:layout_weight="1"
             android:background="@drawable/round_button"
-            app:backgroundTint="@null"
-            android:text="@string/identify_image_btn" />
+            android:onClick="identifyImage"
+            android:text="@string/identify_image_btn"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/advanced_level"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:onClick="advancedLevel"
             android:layout_weight="1"
             android:background="@drawable/round_button"
-            app:backgroundTint="@null"
-            android:text="@string/advanced_level_btn" />
+            android:onClick="advancedLevel"
+            android:text="@string/advanced_level_btn"
+            app:backgroundTint="@null" />
 
     </LinearLayout>
 

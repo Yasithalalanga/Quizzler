@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Quizzler">
 
-        <activity android:name=".AdvancedLevel"
+        <activity android:name=".AdvancedLevelActivity"
             android:label="Advanced Level"
             android:parentActivityName=".MainActivity">
             <meta-data
@@ -18,7 +18,7 @@
                 android:value="com.livecodex.quizzler.MainActivity" />
         </activity>
 
-        <activity android:name=".IdentifyImage"
+        <activity android:name=".IdentifyImageActivity"
             android:label="Identify Car Image"
             android:parentActivityName=".MainActivity">
             <meta-data

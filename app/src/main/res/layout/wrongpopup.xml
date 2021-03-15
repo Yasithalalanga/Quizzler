@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:text="@string/correct_answer"
         android:layout_marginTop="20dp"
-        android:textSize="20sp"
+        android:textSize="30sp"
         android:layout_gravity="center_horizontal"/>
 
     <TextView
@@ -42,6 +42,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
-        android:textSize="20sp"/>
+        android:textColor="@color/yellow"
+        android:textStyle="bold"
+        android:textSize="25sp"/>
 
 </LinearLayout>

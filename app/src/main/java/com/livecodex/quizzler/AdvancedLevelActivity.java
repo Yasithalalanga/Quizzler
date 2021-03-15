@@ -1,5 +1,6 @@
 package com.livecodex.quizzler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 
 import com.livecodex.quizzler.utils.Services;
 
-public class AdvancedLevel extends AppCompatActivity {
+public class AdvancedLevelActivity extends AppCompatActivity {
 
     private ImageView imageViewOne;
     private ImageView imageViewTwo;
@@ -61,24 +62,43 @@ public class AdvancedLevel extends AppCompatActivity {
 
         setRandomImages();
 
-        if(timerMode){
+        if(savedInstanceState != null){
+            String savedTextOne = savedInstanceState.getString("textFieldValue_one");
+            String savedTextTwo = savedInstanceState.getString("textFieldValue_two");
+            String savedTextThree = savedInstanceState.getString("textFieldValue_three");
+
+            if(textFieldOne.getText().toString().equals("")){
+                textFieldOne.setText(savedTextOne);
+            }
+
+            if(textFieldTwo.getText().toString().equals("")){
+                textFieldTwo.setText(savedTextTwo);
+            }
+
+            if(textFieldThree.getText().toString().equals("")){
+                textFieldThree.setText(savedTextThree);
+            }
+
+        }
+
+        if (timerMode) {
             countdownTimer();
         }
     }
 
-    public void setRandomImages(){
+    public void setRandomImages() {
         currentCarMakes = new String[3];
 
         //Displaying three different images
         currentCarMakes[0] = Services.randomizedImage(imageViewOne, getApplicationContext());
 
-        do{
+        do {
             currentCarMakes[1] = Services.randomizedImage(imageViewTwo, getApplicationContext());
-        }while (currentCarMakes[1].equalsIgnoreCase(currentCarMakes[0]));
+        } while (currentCarMakes[1].equalsIgnoreCase(currentCarMakes[0]));
 
-        do{
+        do {
             currentCarMakes[2] = Services.randomizedImage(imageViewThree, getApplicationContext());
-        }while (currentCarMakes[2].equalsIgnoreCase(currentCarMakes[1]) || currentCarMakes[2].equalsIgnoreCase(currentCarMakes[0]));
+        } while (currentCarMakes[2].equalsIgnoreCase(currentCarMakes[1]) || currentCarMakes[2].equalsIgnoreCase(currentCarMakes[0]));
 
     }
 
@@ -87,7 +107,7 @@ public class AdvancedLevel extends AppCompatActivity {
         Button submitButton = (Button) view;
         String buttonContent = submitButton.getText().toString();
 
-        if(buttonContent.equals("Next")){
+        if (buttonContent.equals("Next")) {
 
             textFieldOne.setText("");
             textFieldTwo.setText("");
@@ -105,8 +125,8 @@ public class AdvancedLevel extends AppCompatActivity {
             submitButton.setText(R.string.submit);
             setRandomImages();
 
-            if(timerMode){
-                if(downTimer != null){
+            if (timerMode) {
+                if (downTimer != null) {
                     downTimer.cancel();
                     timerViewAdvanced.setText("");
                 }
@@ -114,7 +134,7 @@ public class AdvancedLevel extends AppCompatActivity {
             }
 
 
-        }else {
+        } else {
 
             if (totalAttempts > 0) {
                 totalAttempts--;
@@ -147,15 +167,15 @@ public class AdvancedLevel extends AppCompatActivity {
                     textFieldThree.setTextColor(Color.RED);
                 }
 
-                if(timerMode){
-                    if(downTimer != null){
+                if (timerMode) {
+                    if (downTimer != null) {
                         downTimer.cancel();
                         timerViewAdvanced.setText("");
                     }
                     countdownTimer();
                 }
 
-                Toast.makeText(getApplicationContext(), imageOneGuess + currentCarMakes[0] + " " + imageTwoGuess + " " + imageThreeGuess + currentScore, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Rounds Left : " + (totalAttempts), Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(getApplicationContext(), "Rounds Exceeded", Toast.LENGTH_SHORT).show();
@@ -172,7 +192,7 @@ public class AdvancedLevel extends AppCompatActivity {
                 correctAnswers();
                 submitButton.setText(R.string.next_item);
 
-                if(timerMode && downTimer != null){
+                if (timerMode && downTimer != null) {
                     downTimer.cancel();
                     timerViewAdvanced.setText("");
                 }
@@ -186,39 +206,63 @@ public class AdvancedLevel extends AppCompatActivity {
 
     private void correctAnswers() {
 
-        if(textFieldOne.isEnabled()){
+        if (textFieldOne.isEnabled()) {
             textFieldOne.setText(currentCarMakes[0]);
             textFieldOne.setTextColor(Color.RED);
         }
 
-        if(textFieldTwo.isEnabled()){
+        if (textFieldTwo.isEnabled()) {
             textFieldTwo.setText(currentCarMakes[1]);
             textFieldTwo.setTextColor(Color.RED);
         }
 
-        if(textFieldThree.isEnabled()){
+        if (textFieldThree.isEnabled()) {
             textFieldThree.setText(currentCarMakes[2]);
             textFieldThree.setTextColor(Color.RED);
         }
 
     }
 
-    public void countdownTimer(){
+    public void countdownTimer() {
         downTimer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long milliSeconds) {
-                long seconds = milliSeconds /1000;
+                long seconds = milliSeconds / 1000;
                 timerViewAdvanced.setText(String.valueOf(seconds));
             }
 
             @Override
             public void onFinish() {
-                if(timerMode && downTimer != null){
+                if (timerMode && downTimer != null) {
                     downTimer.cancel();
                     timerViewAdvanced.setText("");
                 }
                 submitBtn.performClick();
             }
         }.start();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString("textFieldValue_one", textFieldOne.getText().toString());
+        outState.putString("textFieldValue_two", textFieldTwo.getText().toString());
+        outState.putString("textFieldValue_three", textFieldThree.getText().toString());
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (timerMode) downTimer.cancel();
+        resultDialog.cancel();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (timerMode) downTimer.cancel();
+        resultDialog.cancel();
+        return super.onSupportNavigateUp();
     }
 }

@@ -1,5 +1,6 @@
 package com.livecodex.quizzler;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
@@ -15,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.livecodex.quizzler.utils.Selections;
 import com.livecodex.quizzler.utils.Services;
@@ -43,26 +43,26 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
         timerMode = makeIntent.getBooleanExtra("SwitchStatus", false);
 
         resultDialog = new Dialog(this);
-        randomImageView = findViewById(R.id.imageView) ;
+        randomImageView = findViewById(R.id.imageView);
         mSpinner = findViewById(R.id.makeSpinner);
         timerViewMake = findViewById(R.id.timerViewMake);
         makeSubmit = findViewById(R.id.makeSubmit);
 
-        if(mSpinner != null){
+        if (mSpinner != null) {
             mSpinner.setOnItemSelectedListener(this);
         }
 
         // Spinner items loaded from the string array
-        ArrayAdapter<String> adapter= new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Selections.getMakes());
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, Selections.getMakes());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        if(mSpinner != null){
+        if (mSpinner != null) {
             mSpinner.setAdapter(adapter);
         }
 
-        makeTestRand = Services.randomizedImage(randomImageView,getApplicationContext());
+        makeTestRand = Services.randomizedImage(randomImageView, getApplicationContext());
 
-        if(timerMode){
+        if (timerMode) {
             countdownTimer();
         }
     }
@@ -71,7 +71,6 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         spinnerCarMakes = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(getApplicationContext(), spinnerCarMakes, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -84,29 +83,29 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
         Button makeButton = (Button) view;
         String buttonContent = makeButton.getText().toString();
 
-        if(buttonContent.equals("Next")){
+        if (buttonContent.equals("Next")) {
             makeButton.setText(R.string.make_submit);
-            makeTestRand = Services.randomizedImage(randomImageView,getApplicationContext());
+            makeTestRand = Services.randomizedImage(randomImageView, getApplicationContext());
 
             mSpinner.setEnabled(true);
 
-            if(timerMode){
-                if(downTimer != null){
+            if (timerMode) {
+                if (downTimer != null) {
                     downTimer.cancel();
                     timerViewMake.setText("");
                 }
                 countdownTimer();
             }
 
-        }else{
+        } else {
 
             mSpinner.setEnabled(false);
 
-            if(spinnerCarMakes.equals(makeTestRand)){
+            if (spinnerCarMakes.equals(makeTestRand)) {
                 // Showing the correct dialog
                 resultDialog.setContentView(R.layout.correctpopup);
 
-            }else{
+            } else {
                 resultDialog.setContentView(R.layout.wrongpopup);
                 TextView dialogCorrectText = resultDialog.findViewById(R.id.correct_answer_view);
                 dialogCorrectText.setText(makeTestRand);
@@ -115,21 +114,26 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
             resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             resultDialog.show();
             makeButton.setText(R.string.next_item);
+
+            if (timerMode && downTimer != null) {
+                downTimer.cancel();
+                timerViewMake.setText("");
+            }
         }
 
     }
 
-    public void countdownTimer(){
+    public void countdownTimer() {
         downTimer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long milliSeconds) {
-                long seconds = milliSeconds /1000;
+                long seconds = milliSeconds / 1000;
                 timerViewMake.setText(String.valueOf(seconds));
             }
 
             @Override
             public void onFinish() {
-                if(timerMode && downTimer != null){
+                if (timerMode && downTimer != null) {
                     downTimer.cancel();
                     timerViewMake.setText("");
                 }
@@ -137,5 +141,19 @@ public class IdentifyMakeActivity extends AppCompatActivity implements AdapterVi
             }
         }.start();
     }
-    
+
+    @Override
+    public void onBackPressed() {
+        if (timerMode) downTimer.cancel();
+        resultDialog.cancel();
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        if (timerMode) downTimer.cancel();
+        resultDialog.cancel();
+        return super.onSupportNavigateUp();
+    }
+
 }
