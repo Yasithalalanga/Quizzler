@@ -15,12 +15,12 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="261dp"
-            android:layout_height="85dp"
+            android:layout_width="300dp"
+            android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="19dp"
             android:contentDescription="@string/todo"
-            android:src="@drawable/logoemp" />
+            android:src="@drawable/logoeSample" />
 
         <TextView
             android:id="@+id/app_name"

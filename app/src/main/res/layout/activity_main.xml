@@ -33,7 +33,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="19dp"
         android:contentDescription="@string/todo"
-        android:src="@drawable/logoemp" />
+        android:src="@drawable/logoeSample" />
 
     <TextView
         android:id="@+id/app_name"
