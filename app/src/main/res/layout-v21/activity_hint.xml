@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="50dp"
         android:onClick="identifyHint"
-        android:text="@string/make_submit"
+        android:text="@string/submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

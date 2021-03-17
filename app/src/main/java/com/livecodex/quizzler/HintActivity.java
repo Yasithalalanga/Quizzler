@@ -65,11 +65,13 @@ public class HintActivity extends AppCompatActivity {
         String buttonContent = hintButton.getText().toString();
 
         if (buttonContent.equals("Next")) {
-            hintButton.setText(R.string.make_submit);
+            hintButton.setText(R.string.submit);
             mRandomImageMake = Services.randomizedImage(mHintImageView, getApplicationContext());
 
             mHintInput.setEnabled(true);
             mHintTextView.setText("");
+            totalAttempts = 3;
+            roundCount = 0;
 
             carHintText = new String(new char[mRandomImageMake.length()]).replace("\0", "-");
             mHintTextView.setText(carHintText);
@@ -107,6 +109,11 @@ public class HintActivity extends AppCompatActivity {
                         resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         resultDialog.show();
 
+                        if (timerMode && downTimer != null) {
+                            downTimer.cancel();
+                            timerViewHint.setText("");
+                        }
+
                         hintButton.setText(R.string.next_item);
                         mHintInput.setEnabled(false);
                     }
@@ -115,6 +122,7 @@ public class HintActivity extends AppCompatActivity {
                     roundCount++;
 
                     if (roundCount > 2) {
+
                         resultDialog.setContentView(R.layout.wrongpopup);
 
                         TextView dialogCorrectText = (TextView) resultDialog.findViewById(R.id.correct_answer_view);
@@ -122,7 +130,6 @@ public class HintActivity extends AppCompatActivity {
 
                         resultDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                         resultDialog.show();
-
 
                         hintButton.setText(R.string.next_item);
                         mHintInput.setEnabled(false);
@@ -136,8 +143,19 @@ public class HintActivity extends AppCompatActivity {
                     } else {
 
                         totalAttempts--;
+                        mHintInput.setText("");
                         Toast.makeText(this, "Letter is not available, Rounds Left: " + (3 - roundCount), Toast.LENGTH_SHORT).show();
 
+                    }
+                }
+
+                if(!hintButton.getText().toString().equals("Next")){
+                    if (timerMode) {
+                        if (downTimer != null) {
+                            downTimer.cancel();
+                            timerViewHint.setText("");
+                        }
+                        countdownTimer();
                     }
                 }
 
